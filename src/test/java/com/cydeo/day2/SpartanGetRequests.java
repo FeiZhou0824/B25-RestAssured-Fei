@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class SpartanGetRequests {
@@ -48,6 +49,7 @@ public class SpartanGetRequests {
 
     }
 
+    @DisplayName("GET individual spartan")
     @Test
     public void test2(){
         Response response = RestAssured.
@@ -74,8 +76,37 @@ public class SpartanGetRequests {
         And body should be “Hello from Sparta"
         */
 
+    @DisplayName("Get request to /api/hello/endpoint")
     @Test
     public void test3(){
+
+        Response response = RestAssured.when().get(url+"/api/hello");
+
+        response.prettyPrint();
+
+        //verify status code
+        Assertions.assertEquals(200, response.getStatusCode());
+
+        //verify content type
+        Assertions.assertEquals("text/plain;charset=UTF-8",response.contentType());
+
+        //verify date header exists in response headers
+        // we use hasHeaderWithName method to verify header exists or not- it returns boolean
+        response.headers().hasHeaderWithName("Date");
+        Assertions.assertTrue(response.headers().hasHeaderWithName("Date"));
+
+        //to get hearder value we use hearder() which accept header name as parameter and return value as string
+        System.out.println("response.header(\"Content-Length\") = " + response.header("Content-Length"));
+        System.out.println("response.header(\"Connection\") = " + response.header("Connection"));
+
+        //verify content length is 17
+
+        Assertions.assertEquals("17",response.header("Content-Length"));
+
+        //verify body is "hello from sparta"
+
+        Assertions.assertEquals("Hello from Sparta",response.body().asString());
+
 
     }
 
