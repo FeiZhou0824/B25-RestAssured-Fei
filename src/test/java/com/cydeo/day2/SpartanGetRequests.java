@@ -109,6 +109,7 @@ public class SpartanGetRequests {
         Assertions.assertEquals("Hello from Sparta",response.body().asString());
 
 
+
     }
 
 }

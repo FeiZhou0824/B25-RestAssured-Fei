@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static io.restassured.RestAssured.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class SpartanNegativeGetRequest {
 
     // beforeAll is the same thing with beforeClass in testing
@@ -20,8 +23,7 @@ public class SpartanNegativeGetRequest {
     @DisplayName("GET all spartans")
     @Test
     public void test1() {
-        Response response = RestAssured.
-                given().
+        Response response = given().
                 accept(ContentType.JSON)
                 .when()
                 .get("/api/spartans");
@@ -33,10 +35,10 @@ public class SpartanNegativeGetRequest {
 
         //how to test API?
         //Verify Status code is 200
-        Assertions.assertEquals(200, response.statusCode());
+        assertEquals(200, response.statusCode());
 
         //verify content type is application/json
-        Assertions.assertEquals("application/json", response.contentType());
+        assertEquals("application/json", response.contentType());
 
     }
 
@@ -47,14 +49,23 @@ public class SpartanNegativeGetRequest {
     And response Content Type must be application/xml;charset=UTF-8;
     */
 
+
+    @DisplayName("GET request with Accept XML individual Spartan")
     @Test
     public void testTask(){
 
-        Response response = RestAssured.given().accept(ContentType.XML).get("/api/spartans/10");
+        Response response = given()
+                .accept(ContentType.XML)
+                .when().get("/api/spartans/10");
 
-        Assertions.assertEquals(406, response.getStatusCode());
+        assertEquals(406, response.getStatusCode());
 
         System.out.println("response.header(\"Content-Type\") = " + response.header("Content-Type"));
+
+        assertEquals("application/xml;charset=UTF-8",response.header("Content-Type"));
+
+        response.prettyPrint();
+
 
 
     }
