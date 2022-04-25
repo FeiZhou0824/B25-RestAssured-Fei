@@ -10,6 +10,8 @@ import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.*;
 
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 public class HRHamcrestTEST extends HrTestBase {
@@ -37,11 +39,27 @@ public class HRHamcrestTEST extends HrTestBase {
                 .and()
                 .contentType("application/json")
                 .body("items.job_id",everyItem(equalTo("IT_PROG")))
-                .body("items.salary",everyItem(greaterThan(3000)));
+                .body("items.salary",everyItem(greaterThan(3000)))
+                .body("items.first_name",is(names))
+                .body("items.email",containsInAnyOrder("DAUSTIN","AHUNOLD","BERNST","VPATABAL","DLORENTZ"));
 
+    }
 
+    @Test
+    public void test2(){
+       JsonPath jsonPath = given().accept(ContentType.JSON)
+                .and()
+                .queryParam("q","{\"job_id\": \"IT_PROG\"}")
+                .get("/employees")
+                .then()
+                .statusCode(200)
+                .and()
+                .contentType("application/json")
+                .body("items.job_id",everyItem(equalTo("IT_PROG"))).extract().response().jsonPath();
 
+        //asset that we only have 5 firstname
 
+       assertThat(jsonPath.getList("items.first_name"),hasSize(5));
 
     }
 }

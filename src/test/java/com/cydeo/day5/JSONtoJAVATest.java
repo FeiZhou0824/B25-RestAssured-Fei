@@ -49,5 +49,6 @@ public class JSONtoJAVATest extends SpartanTestBase {
 
         List<Map<String,Object>> jsonList = response.as(List.class);
         System.out.println(jsonList.get(1).get("name"));
+
     }
 }
