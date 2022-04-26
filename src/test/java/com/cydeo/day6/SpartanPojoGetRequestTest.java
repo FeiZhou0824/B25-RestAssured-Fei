@@ -1,5 +1,6 @@
 package com.cydeo.day6;
 
+import com.cydeo.POJO.Search;
 import com.cydeo.POJO.Spartan;
 import com.cydeo.utilities.SpartanTestBase;
 import io.restassured.http.ContentType;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.awt.geom.RectangularShape;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -18,18 +20,18 @@ public class SpartanPojoGetRequestTest extends SpartanTestBase {
 
     @DisplayName("GET one spartan and convert it to Spartan Object")
     @Test
-    public void test1(){
-      Response response =  given()
+    public void test1() {
+        Response response = given()
                 .accept(ContentType.JSON)
                 .and()
-                .pathParam("id",15)
+                .pathParam("id", 15)
                 .when()
                 .get("/api/spartans/{id}")
                 .then()
                 .statusCode(200).log().body()
                 .extract().response();
 
-      // de seriialiaze -->json to pojo (java customer class)
+        // de seriialiaze -->json to pojo (java customer class)
         // 2 different way to do this
         //1. using as() method
         // we conver json response to spartan object with the help of Jackson
@@ -45,13 +47,13 @@ public class SpartanPojoGetRequestTest extends SpartanTestBase {
 
         JsonPath jsonPath = response.jsonPath();
 
-        Spartan s15 = jsonPath.getObject("",Spartan.class);
+        Spartan s15 = jsonPath.getObject("", Spartan.class);
         System.out.println(s15.getName());
     }
 
     @DisplayName("GET one spartan from search endpoint and use POJO")
     @Test
-    public  void  test2(){
+    public void test2() {
         JsonPath jsonPath = given()
                 .accept(ContentType.JSON)
                 .when().get("/api/spartans/search")
@@ -68,8 +70,39 @@ public class SpartanPojoGetRequestTest extends SpartanTestBase {
 
     }
 
+    @Test
+    public void test3() {
+        Response response = given()
+                .accept(ContentType.JSON)
+                .when().get("/api/spartans/search")
+                .then().statusCode(200)
+                .extract().response();
+
+        //get the full content json and convert it to search object
+        Search searchResult = response.as(Search.class);
+
+        //we can also use jackson to get search result
+
+        Search search2 = response.jsonPath().getObject("", Search.class);
+        System.out.println(searchResult.getTotalElement());
+        System.out.println(searchResult.getContent().get(1).getName());
 
 
+    }
+
+    @Test
+    public void test4() {
+        Response response = given()
+                .accept(ContentType.JSON)
+                .when().get("/api/spartans/search")
+                .then().statusCode(200)
+                .extract().response();
+
+        JsonPath jsonPath = response.jsonPath();
+
+        List<Spartan> content = jsonPath.getList("content",Spartan.class);
+        System.out.println(content.get(1).getName());
 
 
+    }
 }
