@@ -56,7 +56,7 @@ public class Hamcrest {
                 .header("Content-Encoding",is("gzip"))
                 .and()
                 .header("Date",notNullValue())
-                .body("students.firstName".toString(),is("Karole"),"batch",is(7),"major",is("Master of Creative Arts")).toString();
+                .body("students[0].firstName",is("Karole"),"students[0].batch",is(7),"students[0].major",is("Master of Creative Arts"));
 
 
 

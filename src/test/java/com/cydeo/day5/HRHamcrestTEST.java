@@ -57,7 +57,7 @@ public class HRHamcrestTEST extends HrTestBase {
                 .contentType("application/json")
                 .body("items.job_id",everyItem(equalTo("IT_PROG"))).extract().response().jsonPath();
 
-        //asset that we only have 5 firstname
+        //asset that we only h ave 5 firstname
 
        assertThat(jsonPath.getList("items.first_name"),hasSize(5));
 
