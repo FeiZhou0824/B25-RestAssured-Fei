@@ -10,7 +10,7 @@ public class Company {
 
 
     private String companyName;
-    private  String address;
+    private  Address address;
 }
 
 

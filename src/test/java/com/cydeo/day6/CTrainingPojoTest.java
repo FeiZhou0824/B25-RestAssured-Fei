@@ -1,5 +1,7 @@
 package com.cydeo.day6;
 
+import com.cydeo.POJO.Student;
+import com.cydeo.POJO.Students;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CTrainingPojoTest {
 
@@ -59,24 +62,20 @@ public class CTrainingPojoTest {
 
             //response.prettyPrint();
 
+            Students students = response.as(Students.class);
+          //  System.out.println(students);
 
+            Student student1 = students.getStudents().get(0);
 
-            JsonPath jsonPath = response.jsonPath();
-            String firstName = jsonPath.getString("students[0].firstName");
-            int batch = jsonPath.getInt("students[0].batch");
-            String major = jsonPath.getString("students[0].major");
-            String emailAddress = jsonPath.getString("students[0].contact.emailAddress");
-            String companyName = jsonPath.getString("students[0].company.companyName");
-            String street = jsonPath.getString("students[0].company.address.street");
-            int zipCode = jsonPath.getInt("students[0].company.address.zipCode");
+           // JsonPath jsonPath = response.jsonPath();
 
-            Assertions.assertEquals("Karole", firstName);
-            Assertions.assertEquals(7, batch);
-            Assertions.assertEquals("Master of Creative Arts", major);
-            Assertions.assertEquals("hassan.lebsack@hotmail.com", emailAddress);
-            Assertions.assertEquals("Legacy Integration Analyst", companyName);
-            Assertions.assertEquals("6253 Willard Place", street);
-            Assertions.assertEquals(28524, zipCode);
+            assertEquals("Karole",student1.getFirstName());
+            assertEquals(7, student1.getBatch());
+            assertEquals("Master of Creative Arts", student1.getMajor());
+            assertEquals("hassan.lebsack@hotmail.com", student1.getContact().getEmailAddress());
+            assertEquals("Legacy Integration Analyst", student1.getCompany().getCompanyName());
+            assertEquals("6253 Willard Place", student1.getCompany().getAddress().getStreet());
+            assertEquals(28524, student1.getCompany().getAddress().getZipCode());
 
 
         }

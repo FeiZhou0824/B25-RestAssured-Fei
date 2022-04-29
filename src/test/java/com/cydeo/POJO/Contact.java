@@ -8,6 +8,10 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Contact {
 
+    private String emailAddress;
+
+
+
 
 
 }
