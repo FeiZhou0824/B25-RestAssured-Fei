@@ -34,6 +34,19 @@ public class BookItTest {
                 .log().all();
 
 
+    }
+    @DisplayName("GET /api/users/me")
+    @Test
+    public void test2(){
+        // how to pass bearer token for bookit?
+        given()
+                .accept(ContentType.JSON)
+                .header("Authorization",accessToken)
+                .accept(ContentType.JSON)
+                .when()
+                .get("/api/users/me")
+                .then().statusCode(200)
+                .log().all();
 
 
     }
