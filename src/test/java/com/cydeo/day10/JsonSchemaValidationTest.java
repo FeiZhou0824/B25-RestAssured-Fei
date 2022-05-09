@@ -6,6 +6,8 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.*;
@@ -15,14 +17,14 @@ public class JsonSchemaValidationTest extends SpartanAuthTestBase {
     @DisplayName("GET request to verify one spartan against tp schema")
 
     @Test
-    public void test1(){
+    public void test1() {
 
         given()
                 .accept(ContentType.JSON)
                 .and()
-                .pathParam("id",50)
+                .pathParam("id", 50)
                 .and()
-                .auth().basic("admin","admin")
+                .auth().basic("admin", "admin")
                 .when()
                 .get("/api/spartans/{id}")
                 .then().statusCode(200)
@@ -31,4 +33,17 @@ public class JsonSchemaValidationTest extends SpartanAuthTestBase {
 
     }
 
+
+    @Test
+    public void test2() {
+
+        given()
+                .accept(ContentType.JSON)
+                .and()
+                .auth().basic("admin", "admin")
+                .when()
+                .get("/api/spartans/")
+                .then().statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/java/com/cydeo/day10/allSpartansSchema.json")));
+    }
 }
