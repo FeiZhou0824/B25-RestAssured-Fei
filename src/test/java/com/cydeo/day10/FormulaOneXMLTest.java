@@ -35,5 +35,10 @@ public class FormulaOneXMLTest {
         String givenName = xmlPath.getString("MRDate.DriverTable.Driver.GivenName");
         System.out.println("givenName = " + givenName);
 
+        //get family name
+        String familyName = xmlPath.getString("MRDate.DriverTable.Driver.FamilyName");
+        System.out.println("familyName = " + familyName);
+
+
     }
 }
