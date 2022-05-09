@@ -45,9 +45,10 @@ public class FormulaOneXMLTest {
         System.out.println("driverId = " + driverId);
 
         //get the code
-        String code = xmlPath.getString("MRDate.DriverTable.Driver.code");
+        String code = xmlPath.getString("MRDate.DriverTable.Driver.@code");
         System.out.println("code = " + code);
 
-
     }
+
+
 }
