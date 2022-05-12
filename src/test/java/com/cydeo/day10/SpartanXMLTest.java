@@ -1,6 +1,7 @@
 package com.cydeo.day10;
 
 
+import com.cydeo.utilities.SpartanAuthTestBase;
 import com.cydeo.utilities.SpartanTestBase;
 import io.restassured.http.ContentType;
 import io.restassured.path.xml.XmlPath;
@@ -13,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.*;
 
-public class SpartanXMLTest extends SpartanTestBase {
+public class SpartanXMLTest extends SpartanAuthTestBase {
 
     //we will ask for xml result
     // assert status code

@@ -14,7 +14,9 @@ import static io.restassured.RestAssured.*;
 
 public class JsonSchemaValidationTest extends SpartanAuthTestBase {
 
-    @DisplayName("GET request to verify one spartan against tp schema")
+    //get the file under the resources
+
+    @DisplayName("GET request to verify one spartan against to schema")
 
     @Test
     public void test1() {
@@ -28,12 +30,13 @@ public class JsonSchemaValidationTest extends SpartanAuthTestBase {
                 .when()
                 .get("/api/spartans/{id}")
                 .then().statusCode(200)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("SingleSpartanSchema.json"))
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("SingleSpartanSchema.json"))  // Schema is under the resources
                 .log().all();
 
     }
 
 
+    // how to get the file if it is not under the resources
     @Test
     public void test2() {
 
@@ -44,6 +47,12 @@ public class JsonSchemaValidationTest extends SpartanAuthTestBase {
                 .when()
                 .get("/api/spartans/")
                 .then().statusCode(200)
-                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/java/com/cydeo/day10/allSpartansSchema.json")));
+                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/java/com/cydeo/day10/allSpartansSchema.json"))); // schema is not under the resources
     }
+
+    //homework
+    //put your post json schema under day10
+    //post one spartan using dynamic input (name, gender,phone)
+    //verify your post response matching with json schema
+
 }
