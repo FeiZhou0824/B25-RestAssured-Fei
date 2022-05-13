@@ -59,17 +59,29 @@ public class CsvSourceParameterizedTest {
         System.out.println("state = " + state);
         System.out.println("city = " + city);
 
-      JsonPath jsonPath =  given()
+//      JsonPath jsonPath =  given()
+//                .pathParam("state",state)
+//                .and()
+//                .pathParam("city",city)
+//                .when()
+//                .get("https://api.zippopotam.us/us/{state}/{city}")
+//                .then()
+//                .statusCode(200).extract().jsonPath();
+//      jsonPath.param("country abbreviation.places.place name",hasValue(city));
+//      int placeNum = jsonPath.getList("places").size();
+//        System.out.println("placeNum = " + placeNum);
+
+     int placesNumber =    given()
                 .pathParam("state",state)
                 .and()
                 .pathParam("city",city)
                 .when()
                 .get("https://api.zippopotam.us/us/{state}/{city}")
                 .then()
-                .statusCode(200).extract().jsonPath();
-      jsonPath.param("country abbreviation.places.place name",hasValue(city));
-      int placeNum = jsonPath.getList("places").size();
-        System.out.println("placeNum = " + placeNum);
+                .statusCode(200)
+                .body("places.'place name'",everyItem(containsStringIgnoringCase(city)))
+                .extract().jsonPath().getList("places").size();
+        System.out.println("placesNumber = " + placesNumber);
 
 
     }
