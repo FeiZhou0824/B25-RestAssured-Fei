@@ -2,6 +2,7 @@ package com.cydeo.day12;
 
 
 import com.cydeo.utilities.ExcelUtil;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,11 +28,25 @@ public class BookitTest {
         return bookitFile.getDataList();
 
     }
-//    @ParameterizedTest
-//    @MethodSource("getExcelData")
-//    public void bookitUserTest(Map){
-//
-//    }
+    @ParameterizedTest
+    @MethodSource("getExcelData")
+    public void bookitUserTest(Map<String, String> userInfo){
+        System.out.println("userInfo.get(\"email\") = " + userInfo.get("email"));
+        System.out.println("userInfo.get(\"password\") = " + userInfo.get("password"));
+
+        given()
+                .baseUri("https://cybertek-reservation-api-qa3.herokuapp.com")
+                .and()
+                .accept(ContentType.JSON)
+                .queryParams(userInfo)
+               // .queryParams("email",userInfo.get("email"))
+               // .queryParams("password",userInfo.get("password"))
+                .when()
+                .get("/sign")
+                .then()
+                .statusCode(200).log().body();
+
+    }
 
 
 }
